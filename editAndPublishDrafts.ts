@@ -105,7 +105,8 @@ async function filterRenameAndSortNewVideos (
 
   const sortedVideos = filteredAndRenamedVideos.sort((a, b) => {
     if (!a.snippet?.title || !b.snippet?.title) return 0;
-    return parseInt(a.snippet.title.slice(2)) - parseInt(b.snippet.title.slice(2));
+    const sliceStart = module.length + 1;
+    return parseInt(a.snippet.title.slice(sliceStart)) - parseInt(b.snippet.title.slice(sliceStart));
   });
 
   return sortedVideos;
