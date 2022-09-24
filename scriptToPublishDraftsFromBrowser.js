@@ -142,8 +142,9 @@
       await visibility.setVisibility()
       await sleep(500)
       await visibility.save()
-      await sleep(3000)
+      await sleep(5000)
     }
+    console.log('Done!')
   }
 
   publishDrafts()
