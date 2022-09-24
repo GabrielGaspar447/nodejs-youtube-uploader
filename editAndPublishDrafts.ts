@@ -113,7 +113,7 @@ async function filterRenameAndSortNewVideos (
 }
 
 async function editVideo (youtube: youtube_v3.Youtube, videoId: string, title: string) {
-  await youtube.videos.update({
+  const { status } = await youtube.videos.update({
     part: ['snippet', 'status'],
     requestBody: {
       id: videoId,
@@ -127,10 +127,16 @@ async function editVideo (youtube: youtube_v3.Youtube, videoId: string, title: s
       }
     }
   });
+
+  if (status === 200) {
+    console.log(chalk.greenBright(`\nVideo ${title} edited`));
+  } else {
+    console.log(chalk.redBright(`\nFailed to edit video ${title}`));
+  }
 }
 
-async function insertVideoInPlaylist (youtube: youtube_v3.Youtube, videoId: string) {
-  await youtube.playlistItems.insert({
+async function insertVideoInPlaylist (youtube: youtube_v3.Youtube, videoId: string, title: string) {
+  const { status } = await youtube.playlistItems.insert({
     part: ['snippet'],
     requestBody: {
       snippet: {
@@ -142,6 +148,12 @@ async function insertVideoInPlaylist (youtube: youtube_v3.Youtube, videoId: stri
       }
     }
   });
+
+  if (status === 200) {
+    console.log(chalk.greenBright(`Video ${title} inserted in the playlist`));
+  } else {
+    console.log(chalk.redBright(`Failed to insert video ${title} in the playlist`));
+  }
 }
 
 async function main () {
@@ -171,11 +183,12 @@ async function main () {
 
       await editVideo(youtube, videoId, newTitle);
 
-      await insertVideoInPlaylist(youtube, videoId);
+      await insertVideoInPlaylist(youtube, videoId, newTitle);
     }
-    console.log(chalk.greenBright('\nDone!\n'));
+    console.log(chalk.cyanBright('\nDone! 🎉\n'));
   } catch (error: unknown) {
-    console.log(chalk.redBright(error));
+    console.log(chalk.redBright(error)); // this only prints the message because of chalk
+    console.log(error);
   }
 }
 
