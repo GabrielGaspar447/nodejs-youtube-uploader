@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "upload": "ts-node -T upload.ts",
-    "edit": "ts-node -T editAndPublishDrafts.ts"
+    "edit": "ts-node -T editAndInsertInPlaylist.ts"
   },
   "keywords": [],
   "author": "Gabriel Gaspar",
